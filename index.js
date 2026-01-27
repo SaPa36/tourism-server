@@ -40,6 +40,22 @@ async function run() {
       res.send(result);
     });
 
+    // Get spots added by a specific user
+    app.get('/my-list/:email', async (req, res) => {
+      const email = req.params.email;
+      const query = { userEmail: email };
+      const result = await touristPlacesCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    // Delete a spot
+    app.delete('/tourist-spots/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await touristPlacesCollection.deleteOne(query);
+      res.send(result);
+    });
+
     //Add a new tourist place
     app.post('/tourist-spots', async (req, res) => {
       const place = req.body;
