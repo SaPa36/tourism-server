@@ -33,13 +33,15 @@ async function run() {
     const touristPlacesCollection = client.db('tourismDB').collection('touristPlaces');
 
     //Tourist Places related APIs
-    // app.get('/tourist-places', async (req, res) => {
-    //   const cursor = touristPlacesCollection.find();
-    //   const result = await cursor.toArray();
-    //   res.send(result);
-    // });
+    //Read all tourist places
+    app.get('/tourist-spots', async (req, res) => {
+      const cursor = touristPlacesCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
-    app.post('/tourist-places', async (req, res) => {
+    //Add a new tourist place
+    app.post('/tourist-spots', async (req, res) => {
       const place = req.body;
       const result = await touristPlacesCollection.insertOne(place);
       res.send(result);
