@@ -30,6 +30,20 @@ async function run() {
     await client.connect();
 
     const userCollection = client.db('tourismDB').collection('user');
+    const touristPlacesCollection = client.db('tourismDB').collection('touristPlaces');
+
+    //Tourist Places related APIs
+    // app.get('/tourist-places', async (req, res) => {
+    //   const cursor = touristPlacesCollection.find();
+    //   const result = await cursor.toArray();
+    //   res.send(result);
+    // });
+
+    app.post('/tourist-places', async (req, res) => {
+      const place = req.body;
+      const result = await touristPlacesCollection.insertOne(place);
+      res.send(result);
+    });
 
     //User related APIs
     app.post('/users', async (req, res) => {
