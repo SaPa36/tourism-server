@@ -6,14 +6,19 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "https://tourism-43055.web.app",
-        "https://tourism-43055.firebaseapp.com"
-    ],
-    credentials: true
-}));
+const corsOptions = {
+  origin: [
+    'http://localhost:5173', 
+    'https://tourism-server-rose.vercel.app',
+    //'https://tourism-43055.web.app', // Add your Firebase link
+    //'https://tourism-43055.firebaseapp.com'
+  ],
+  credentials: true,
+  optionSuccessStatus: 200,
+}
+app.use(cors(corsOptions));
+//app.options('*', cors(corsOptions));
+
 app.use(express.json());
 
 
