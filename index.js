@@ -6,7 +6,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        "http://localhost:5173",
+        "https://tourism-43055.web.app",
+        "https://tourism-43055.firebaseapp.com"
+    ],
+    credentials: true
+}));
 app.use(express.json());
 
 
@@ -27,7 +34,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    //await client.connect();
 
     const userCollection = client.db('tourismDB').collection('user');
     const touristPlacesCollection = client.db('tourismDB').collection('touristPlaces');
@@ -131,6 +138,10 @@ app.get('/', (req, res) => {
   res.send('Tourism Server is running');
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+        console.log(`Server is running on port: ${port}`);
+    });
+}
+
+module.exports = app;
